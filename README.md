@@ -16,5 +16,5 @@ Estes dados já existem e se encontram no arquivo ./paymentInputs.txt neste repo
 
 Após o pagamento, um log é printado no console do Browser. 
 
-TODO: Informar o sistema 2 que este pagamento foi concluido, alterando o estado para 'pago'. 
+TODO: Informar o sistema 2 que este pagamento foi concluido, alterando o estado da reserva para 'pago'. 
 
