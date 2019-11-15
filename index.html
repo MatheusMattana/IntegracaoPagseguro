@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Integração com pagseguro</title>
+</head>
+
+<body>
+  <p>O valor abaixo representa o preço da reserva que a api buscará na página html, com indentificação pelo id do elemento id="booking-price"</p>
+  <h1 id="booking-price">100.00</h1>
+  <p>IMPORTANTE! Ao clicar no botão 'Pagar!' aguardar um pouco. </p>
+  <button onclick={initPayment()}>Pagar!</button>
+  <script type="text/javascript" src="https://stc.sandbox.pagseguro.uol.com.br/pagseguro/api/v2/checkout/pagseguro.lightbox.js"></script>
+  <script>
+    const url = "https://ws.sandbox.pagseguro.uol.com.br/v2/checkout?email=matheusmattana@hotmail.com&token=0349456251554B82B42057A292AB5D04"
+    const proxyurl = "https://safe-bayou-34266.herokuapp.com/"
+    const price = document.querySelector('#booking-price').innerHTML
+    const bodyParams = `&currency=BRL&itemId1=01&itemDescription1=reserva_hotel&itemAmount1=${price}&itemQuantity1=1&itemWeight1=1&shippingAddressRequired=false`
+
+    function initPayment() {
+      const http = new XMLHttpRequest()
+      http.onreadystatechange = function () {
+        if (http.readyState == 4 && http.status == 200) {
+          const code = http.responseXML.getElementsByTagName('code').item(0).innerHTML
+          var callback = {
+            success: function (transactionCode) {
+              //Insira os comandos para quando o usuário finalizar o pagamento. 
+              //O código da transação estará na variável "transactionCode"
+              console.log("Compra feita com sucesso, código de transação: " + transactionCode);
+            },
+            abort: function () {
+              //Insira os comandos para quando o usuário abandonar a tela de pagamento.
+              console.log("abortado");
+            }
+          };
+          //Chamada do lightbox passando o código de checkout e os comandos para o callbasck
+          var isOpenLightbox = PagSeguroLightbox(code, callback);
+          // Redireciona o comprador, caso o navegador não tenha suporte ao Lightbox
+          if (!isOpenLightbox) {
+            location.href = "https://pagseguro.uol.com.br/v2/checkout/payment.html?code=" + code;
+            console.log("Redirecionamento")
+          }
+        }
+      }
+      http.open('POST', proxyurl + url + bodyParams, true);
+      http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=ISO-8859-1')
+      http.send();
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+email: c52131411608183155983@sandbox.pagseguro.com.br
+senha: d0317v49u4h3249r
+nome: Matheus Mattana 
+cpf: 861.029.230-49
+celular: 51 989503323
+numero cartao: 4111111111111111
+nome do dono: Paula Bicca
+bandeira: VISA
+codigo de segurança: 123
+data de vencimento: 12/2030
+CPF do dono: 861.029.230-49
+numero do dono: 51 989503323
+CEP 94810-000
+numero 1000
